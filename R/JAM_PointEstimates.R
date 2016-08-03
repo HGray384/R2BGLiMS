@@ -52,11 +52,11 @@ JAM_PointEstimates <- function(
     for (v in 1:ncol(X.ref)) {
       X.ref[,v] <- X.ref[,v] - mean(X.ref[,v]) # MUST mean-center since z is constructed under 0 intercept 
     }
-    L <- chol(t(X.ref) %*% X.ref)
+    L <- chol(crossprod(X.ref)) # HG crossprod faster than t(X) %*% X
     
     # 2) Calculate MLE corresponding to the summary model, multipled through by L
     z_L <- solve(t(L)) %*% z
-    multivariate.beta.hat <- t(solve(t(L) %*% L) %*% t(L) %*% z_L)
+    multivariate.beta.hat <- t(solve(crossprod(L)) %*% t(L) %*% z_L) # HG crossprod faster than t(X) %*% X
     vec.return <- multivariate.beta.hat
   }
   

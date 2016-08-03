@@ -516,7 +516,7 @@ R2BGLiMS <- function(
       # Normalise X
       X.normalised <- apply(X.ref[[ld.block]], MAR=2, function(x) x-mean(x))
       # Calculate X'X
-      xTx[[ld.block]] <- t(X.normalised) %*% X.normalised
+      xTx[[ld.block]] <- crossprod(X.normalised) # HG crossprod faster than t(X) %*% X
     }
     
     ### --- Generate z = X'y for JAM
